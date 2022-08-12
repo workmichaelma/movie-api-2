@@ -1,0 +1,35 @@
+{
+  "name": "movie-api-2",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@strapi/plugin-i18n": "4.3.2",
+    "@strapi/plugin-users-permissions": "4.3.2",
+    "@strapi/strapi": "4.3.2",
+    "async": "^3.2.4",
+    "axios": "^0.27.2",
+    "better-sqlite3": "7.4.6",
+    "cheerio": "^1.0.0-rc.12",
+    "date-fns": "^2.29.1",
+    "lodash": "^4.17.21"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "06d4e287-0088-47c7-9cc8-496a8a882404"
+  },
+  "engines": {
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

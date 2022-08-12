@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tvshows",
+  "info": {
+    "singularName": "tvshow",
+    "pluralName": "tvshows",
+    "displayName": "Tvshow",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "poster": {
+      "type": "richtext",
+      "required": true
+    },
+    "season": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "totalSeason": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tag.tag"
+    }
+  }
+}
