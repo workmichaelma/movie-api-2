@@ -22,6 +22,18 @@ const parseName = (name) => {
   }
   return name;
 };
+const parseSource = (source) => {
+  try {
+    const fullpath = new URL(source) || {};
+    if (fullpath.pathname) {
+      return `${fullpath.origin}${encodeURIComponent(fullpath.pathname)}`;
+    }
+    return source;
+  } catch (err) {
+    console.log(err);
+    return source;
+  }
+};
 const seasonsStringToNumber = [
   "",
   "共一季",
@@ -184,7 +196,7 @@ const _ = {
         return {
           ...tvshow,
           season,
-          source,
+          source: parseSource(source),
         };
       }
       return null;
@@ -222,16 +234,16 @@ const _ = {
 module.exports = () => ({
   cron: async () => {
     try {
-      // const hk = await _.fetchTvShows({
-      //   region: "香港",
-      // });
-      // const jp = await _.fetchTvShows({
-      //   region: "日本",
-      // });
+      const hk = await _.fetchTvShows({
+        region: "香港",
+      });
+      const jp = await _.fetchTvShows({
+        region: "日本",
+      });
       const cn = await _.fetchTvShows({
         region: "大陸",
       });
-      return cn;
+      return [...hk, ...jp, ...cn];
     } catch (err) {
       console.log(err);
       return [];
@@ -239,16 +251,16 @@ module.exports = () => ({
   },
   api: async () => {
     try {
-      // const hk = await _.fetchTvShows({
-      //   region: "香港",
-      // });
+      const hk = await _.fetchTvShows({
+        region: "香港",
+      });
       // const jp = await _.fetchTvShows({
       //   region: "日本",
       // });
-      const cn = await _.fetchTvShows({
-        region: "大陸",
-      });
-      return cn;
+      // const cn = await _.fetchTvShows({
+      //   region: "大陸",
+      // });
+      return hk;
     } catch (err) {
       console.log(err);
       return [];

@@ -54,4 +54,19 @@ module.exports = {
       ctx.body = err;
     }
   },
+  fetchFeed: async (ctx, next) => {
+    const {
+      request: { query },
+    } = ctx;
+    let data = null;
+    const { source, type } = query;
+    if (source && type) {
+      data = await strapi.service("api::cronjob.feed").fetch({ source, type });
+    }
+    try {
+      ctx.body = data;
+    } catch (err) {
+      ctx.body = err;
+    }
+  },
 };
