@@ -42,6 +42,9 @@
     },
     "poster": {
       "type": "text"
+    },
+    "feeds": {
+      "type": "json"
     }
   }
 }

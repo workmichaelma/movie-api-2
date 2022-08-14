@@ -52,6 +52,115 @@ const addHttpsToUrl = (url) => {
 /**
  * cronjob service.
  */
+
+const db = {
+  find: {
+    movie: async ({ id, title }) => {
+      try {
+        const dbResult = await strapi.db.query("api::movie.movie").findOne({
+          where: {
+            $or: [
+              {
+                id,
+              },
+              { title },
+            ],
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
+    },
+    tvshow: async ({ id, title }) => {
+      try {
+        const dbResult = await strapi.db.query("api::tvshow.tvshow").findOne({
+          where: {
+            $or: [
+              {
+                id,
+              },
+              { title },
+            ],
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
+    },
+    drama: async ({ id, title }) => {
+      try {
+        const dbResult = await strapi.db.query("api::drama.drama").findOne({
+          where: {
+            $or: [
+              {
+                id,
+              },
+              { title },
+            ],
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
+    },
+  },
+  update: {
+    movie: async ({ id, feeds }) => {
+      try {
+        const dbResult = await strapi.db.query("api::movie.movie").update({
+          where: {
+            id,
+          },
+          data: {
+            feeds,
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return {};
+      }
+    },
+    drama: async ({ id, feeds }) => {
+      try {
+        const dbResult = await strapi.db.query("api::drama.drama").update({
+          where: {
+            id,
+          },
+          data: {
+            feeds,
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return {};
+      }
+    },
+    tvshow: async ({ id, feeds }) => {
+      try {
+        const dbResult = await strapi.db.query("api::tvshow.tvshow").update({
+          where: {
+            id,
+          },
+          data: {
+            feeds,
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return {};
+      }
+    },
+  },
+};
 const _ = {
   fetchHTML: async ({ source }) => {
     try {
@@ -170,18 +279,72 @@ const _ = {
 };
 
 module.exports = () => ({
-  fetch: async ({ source, type }) => {
+  fetch: async ({ source, title, id, type }) => {
     try {
-      if (type === "drama" || type === "tvshow") {
-        return _.fetchDramaFromSource({
-          source,
-        });
+      let _source = source;
+      let dbResult = null;
+      if (!_source) {
+        if (type === "movie") {
+          dbResult = await db.find.movie({ title, id });
+        } else if (type === "tvshow") {
+          dbResult = await db.find.tvshow({ title, id });
+        } else if (type === "drama") {
+          dbResult = await db.find.drama({ title, id });
+        }
+        if (dbResult) {
+          if (
+            dbResult.feeds &&
+            !isEmpty(dbResult.feeds) &&
+            isArray(dbResult.feeds)
+          ) {
+            return dbResult.feeds;
+          }
+          if (dbResult.source) {
+            _source = dbResult.source;
+          }
+        }
       }
-      if (type === "movie") {
-        return _.fetchMovieFromSource({
-          source,
-        });
+      if (_source) {
+        if (type === "drama" || type === "tvshow") {
+          const dramaFeeds = await _.fetchDramaFromSource({
+            source: _source,
+          });
+          if (isObject(dramaFeeds) && !isEmpty(dramaFeeds)) {
+            if (dbResult) {
+              let result = null;
+              if (type === "drama") {
+                result = await db.update.drama({
+                  id: dbResult.id,
+                  feeds: dramaFeeds,
+                });
+              } else if (type === "tvshow") {
+                result = await db.update.tvshow({
+                  id: dbResult.id,
+                  feeds: dramaFeeds,
+                });
+              }
+              return get(result, "feeds", dramaFeeds);
+            }
+            return dramaFeeds;
+          }
+        }
+        if (type === "movie") {
+          const movieFeeds = await _.fetchMovieFromSource({
+            source: _source,
+          });
+          if (isArray(movieFeeds) && !isEmpty(movieFeeds)) {
+            if (dbResult) {
+              const result = await db.update.movie({
+                id: dbResult.id,
+                feeds: movieFeeds,
+              });
+              return get(result, "feeds", movieFeeds);
+            }
+            return movieFeeds;
+          }
+        }
       }
+      return null;
     } catch (err) {
       console.log(err);
       return [];

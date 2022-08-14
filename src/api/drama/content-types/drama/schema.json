@@ -4,7 +4,8 @@
   "info": {
     "singularName": "drama",
     "pluralName": "dramas",
-    "displayName": "Drama"
+    "displayName": "Drama",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -26,6 +27,9 @@
     },
     "region": {
       "type": "string"
+    },
+    "feeds": {
+      "type": "json"
     }
   }
 }

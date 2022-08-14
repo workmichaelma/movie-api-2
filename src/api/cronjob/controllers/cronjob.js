@@ -59,9 +59,11 @@ module.exports = {
       request: { query },
     } = ctx;
     let data = null;
-    const { source, type } = query;
-    if (source && type) {
-      data = await strapi.service("api::cronjob.feed").fetch({ source, type });
+    const { source = "", id = "", title = "", type } = query;
+    if (type) {
+      data = await strapi
+        .service("api::cronjob.feed")
+        .fetch({ source, id, title, type });
     }
     try {
       ctx.body = data;
