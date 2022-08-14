@@ -137,9 +137,6 @@ const _ = {
         type: "tvshow",
         poster: item.find(".poster > img").attr("src"),
         season: item.find(".poster .update").text(),
-        totalSeason: seasonsStringToNumber.indexOf(
-          item.find(".poster .update").text()
-        ),
         source,
         title: parseName(item.find("h3 > a").text()),
         date: parseDate(item.find(".data > span").text()),
@@ -223,7 +220,24 @@ const _ = {
 };
 
 module.exports = () => ({
-  init: async () => {
+  cron: async () => {
+    try {
+      // const hk = await _.fetchTvShows({
+      //   region: "香港",
+      // });
+      // const jp = await _.fetchTvShows({
+      //   region: "日本",
+      // });
+      const cn = await _.fetchTvShows({
+        region: "大陸",
+      });
+      return cn;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  },
+  api: async () => {
     try {
       // const hk = await _.fetchTvShows({
       //   region: "香港",

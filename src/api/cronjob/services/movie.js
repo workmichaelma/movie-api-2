@@ -1,7 +1,16 @@
 "use strict";
 const cheerio = require("cheerio");
 const axios = require("axios");
-const { isArray, isEmpty, get } = require("lodash");
+const {
+  isArray,
+  isEmpty,
+  get,
+  reject,
+  find,
+  map,
+  includes,
+  intersection,
+} = require("lodash");
 
 const headers = {
   headers: {
@@ -9,6 +18,7 @@ const headers = {
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
   },
 };
+const filterTags = ["驚悚片", "恐怖片", "情色片", "寫真集", "寫真片"];
 const parseDate = (date) => {
   try {
     return moment(date).unix() * 1000;
@@ -22,29 +32,6 @@ const parseName = (name) => {
   }
   return name;
 };
-const seasonsStringToNumber = [
-  "",
-  "共一季",
-  "共二季",
-  "共三季",
-  "共四季",
-  "共五季",
-  "共六季",
-  "共七季",
-  "共八季",
-  "共九季",
-  "共十季",
-  "共十一季",
-  "共十二季",
-  "共十三季",
-  "共十四季",
-  "共十五季",
-  "共十六季",
-  "共十七季",
-  "共十八季",
-  "共十九季",
-  "共二十季",
-];
 /**
  * cronjob service.
  */
@@ -81,12 +68,13 @@ const _ = {
       const type = "movies";
       const html = await _.fetchHTML({ type, region, cats, page });
       const movies = _.parseMovieHTML({ region, cats, data: html });
+      const filteredMovies = _.filterMovies({ movies });
       if (movies && isArray(movies) && !isEmpty(movies)) {
         return _.fetchMovieRecursive({
           region,
           page: page + 1,
           cats,
-          _movies: [..._movies, ...movies],
+          _movies: [..._movies, ...filteredMovies],
         });
       }
       return _movies;
@@ -130,8 +118,12 @@ const _ = {
         })
         .get();
       if (cats) {
-        tags.push(cats);
+        tags.push({
+          type: "movie",
+          name: cats,
+        });
       }
+      const _region = region ? region : cats ? cats : "";
       const movie = {
         type: "movie",
         poster: item.find(".poster > img").attr("src"),
@@ -143,7 +135,7 @@ const _ = {
         date: parseDate(item.find(".data > span").text()),
         year: item.find(".data > span").text().slice(0, 4),
         tags,
-        region,
+        region: _region,
         hot: tags.indexOf("熱門電影") > -1 ? 1 : 0,
       };
 
@@ -156,16 +148,23 @@ const _ = {
       return null;
     }
   },
+  filterMovies: ({ movies }) => {
+    return reject(movies, (m) => {
+      const { tags } = m;
+      const tagString = map(tags, "name");
+      return !isEmpty(intersection(filterTags, tagString));
+    });
+  },
 };
 
 module.exports = () => ({
-  init: async () => {
+  cron: async () => {
     try {
-      // const hk = await _.fetchMovieRecursive({
-      //   region: "香港",
-      //   page: 1,
-      //   _movies: [],
-      // });
+      const hk = await _.fetchMovieRecursive({
+        region: "香港",
+        page: 1,
+        _movies: [],
+      });
       // const korea = await _.fetchMovieRecursive({
       //   region: "韓國",
       //   page: 1,
@@ -197,12 +196,25 @@ module.exports = () => ({
       //   _movies: [],
       // });
       // return [...hk, ...korea, ...us, ...jp, ...china, ...tw, ...netflix];
+      return hk;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  },
+  api: async () => {
+    try {
       const hk = await _.fetchMovieRecursive({
         region: "香港",
         page: 1,
         _movies: [],
       });
-      return hk;
+      const netflix = await _.fetchMovieRecursive({
+        cats: "netflix",
+        page: 1,
+        _movies: [],
+      });
+      return [...hk, ...netflix];
     } catch (err) {
       console.log(err);
       return [];

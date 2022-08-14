@@ -5,8 +5,26 @@
  */
 
 module.exports = {
+  cronMovies: async (ctx, next) => {
+    const data = await strapi.service("api::cronjob.cronjob").movie();
+
+    try {
+      ctx.body = data;
+    } catch (err) {
+      ctx.body = err;
+    }
+  },
+  cronTvShows: async (ctx, next) => {
+    const data = await strapi.service("api::cronjob.cronjob").tvshow();
+    try {
+      ctx.body = data;
+    } catch (err) {
+      ctx.body = err;
+    }
+  },
   fetchMovies: async (ctx, next) => {
-    const data = await strapi.service("api::cronjob.movie").init();
+    const data = await strapi.service("api::cronjob.movie").api();
+
     try {
       ctx.body = data;
     } catch (err) {
@@ -14,7 +32,7 @@ module.exports = {
     }
   },
   fetchTvShows: async (ctx, next) => {
-    const data = await strapi.service("api::cronjob.tvshow").init();
+    const data = await strapi.service("api::cronjob.tvshow").api();
     try {
       ctx.body = data;
     } catch (err) {

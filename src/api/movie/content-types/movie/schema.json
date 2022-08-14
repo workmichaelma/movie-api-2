@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "tvshows",
+  "collectionName": "movies",
   "info": {
-    "singularName": "tvshow",
-    "pluralName": "tvshows",
-    "displayName": "Tvshow",
+    "singularName": "movie",
+    "pluralName": "movies",
+    "displayName": "movie",
     "description": ""
   },
   "options": {
@@ -12,10 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "season": {
-      "type": "string",
-      "unique": true,
-      "required": true
+    "name": {
+      "type": "string"
     },
     "source": {
       "type": "string",
@@ -25,14 +23,17 @@
       "type": "string",
       "required": true
     },
-    "year": {
+    "date": {
       "type": "string"
     },
-    "date": {
+    "year": {
       "type": "string"
     },
     "region": {
       "type": "string"
+    },
+    "hot": {
+      "type": "boolean"
     },
     "tags": {
       "type": "relation",
