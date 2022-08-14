@@ -3,11 +3,20 @@ module.exports = {
    * Simple example.
    * Every monday at 1am.
    */
-
-  "* */20 * * * *": ({ strapi }) => {
-    strapi.api["cronjob"].services["cronjob"].movie();
+  movie: {
+    task: async ({ _strapi }) => {
+      _strapi.api["cronjob"].services["cronjob"].movie();
+    },
+    options: {
+      rule: "* */20 * * * *",
+    },
   },
-  "* */20 * * * *": ({ strapi }) => {
-    strapi.api["cronjob"].services["cronjob"].drama();
+  drama: {
+    task: async ({ _strapi }) => {
+      _strapi.api["cronjob"].services["cronjob"].drama();
+    },
+    options: {
+      rule: "* */20 * * * *",
+    },
   },
 };
