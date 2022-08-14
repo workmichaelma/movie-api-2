@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dramas",
+  "info": {
+    "singularName": "drama",
+    "pluralName": "dramas",
+    "displayName": "Drama"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "poster": {
+      "type": "text"
+    },
+    "source": {
+      "type": "text"
+    },
+    "year": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    }
+  }
+}

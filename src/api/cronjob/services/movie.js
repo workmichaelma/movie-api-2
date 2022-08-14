@@ -41,7 +41,7 @@ const _ = {
       region
     )}&cats=${cats}`;
   },
-  fetchHTML: async ({ type, cats, region, page }) => {
+  fetchHTML: async ({ cats, region, page }) => {
     try {
       const url = _.getUrl({ cats, region, page });
       if (url) {
@@ -51,10 +51,7 @@ const _ = {
       }
       return null;
     } catch (err) {
-      console.log(
-        err,
-        `fetchHTML: page{${page}}, type{${region}}, type{${type}}`
-      );
+      console.log(err, `fetchHTML: page{${page}}, region{${region}}`);
       return null;
     }
   },
@@ -65,11 +62,14 @@ const _ = {
     _movies = [],
   }) => {
     try {
-      const type = "movies";
-      const html = await _.fetchHTML({ type, region, cats, page });
+      const html = await _.fetchHTML({ region, cats, page });
       const movies = _.parseMovieHTML({ region, cats, data: html });
       const filteredMovies = _.filterMovies({ movies });
-      if (movies && isArray(movies) && !isEmpty(movies)) {
+      if (
+        filteredMovies &&
+        isArray(filteredMovies) &&
+        !isEmpty(filteredMovies)
+      ) {
         return _.fetchMovieRecursive({
           region,
           page: page + 1,

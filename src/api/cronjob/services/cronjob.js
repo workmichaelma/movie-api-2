@@ -96,6 +96,35 @@ const db = {
         return {};
       }
     },
+    dramas: async ({ dramas }) => {
+      console.log({ dramas });
+      try {
+        const request = await map(dramas, async (d) => {
+          return db.insert.drama(d);
+        });
+        return Promise.all(request);
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
+    },
+    drama: async ({ poster, source, title, year, region }) => {
+      try {
+        const dbResult = await strapi.db.query("api::drama.drama").create({
+          data: {
+            poster,
+            source,
+            title,
+            year,
+            region,
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return {};
+      }
+    },
     tags: async ({ tags }) => {
       try {
         const request = await map(tags, async (tag) => {
@@ -144,6 +173,23 @@ const db = {
             $or: map(tvshows, (t) => {
               return {
                 title: t.title,
+              };
+            }),
+          },
+        });
+        return dbResult;
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
+    },
+    dramas: async ({ dramas }) => {
+      try {
+        const dbResult = await strapi.db.query("api::drama.drama").findMany({
+          where: {
+            $or: map(dramas, (d) => {
+              return {
+                title: d.title,
               };
             }),
           },
@@ -239,7 +285,25 @@ const _ = {
       });
 
       const newTvshows = await db.insert.tvshows({ tvshows: tvshowsToInsert });
-      return [...dbResult, newTvshows];
+      return [...dbResult, ...newTvshows];
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  },
+  dramasHandler: async ({ dramas }) => {
+    try {
+      const dbResult = await db.find.dramas({ dramas });
+
+      let dramasToInsert = [];
+      forEach(dramas, (drama) => {
+        if (!find(dbResult, { title: drama.title })) {
+          dramasToInsert.push(drama);
+        }
+      });
+
+      const newDramas = await db.insert.dramas({ dramas: dramasToInsert });
+      return [...dbResult, ...newDramas];
     } catch (err) {
       console.log(err);
       return [];
@@ -267,6 +331,16 @@ module.exports = () => ({
       const dbTags = await _.tagsHandler({ data });
 
       return _.tvshowsHandler({ tvshows: data, dbTags });
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
+  },
+  drama: async () => {
+    try {
+      const data = await strapi.service("api::cronjob.drama").cron();
+
+      return _.dramasHandler({ dramas: data });
     } catch (err) {
       console.log(err);
       return [];

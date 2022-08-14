@@ -20,6 +20,15 @@ module.exports = {
     },
     {
       method: "GET",
+      path: "/cronjob/cron/dramas",
+      handler: "cronjob.cronDramas",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: "GET",
       path: "/cronjob/fetch/movies",
       handler: "cronjob.fetchMovies",
       config: {
@@ -29,8 +38,17 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/cronjob/fetch/tvshows",
-      handler: "cronjob.fetchTvShows",
+      path: "/cronjob/fetch/dramas",
+      handler: "cronjob.fetchDramas",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: "GET",
+      path: "/cronjob/fetch/dramas",
+      handler: "cronjob.fetchDramas",
       config: {
         policies: [],
         middlewares: [],
