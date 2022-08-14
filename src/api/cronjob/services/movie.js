@@ -165,38 +165,37 @@ module.exports = () => ({
         page: 1,
         _movies: [],
       });
-      // const korea = await _.fetchMovieRecursive({
-      //   region: "韓國",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // const us = await _.fetchMovieRecursive({
-      //   region: "歐美",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // const jp = await _.fetchMovieRecursive({
-      //   region: "日本",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // const china = await _.fetchMovieRecursive({
-      //   region: "大陸",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // const tw = await _.fetchMovieRecursive({
-      //   region: "台灣",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // const netflix = await _.fetchMovieRecursive({
-      //   cats: "netflix",
-      //   page: 1,
-      //   _movies: [],
-      // });
-      // return [...hk, ...korea, ...us, ...jp, ...china, ...tw, ...netflix];
-      return hk;
+      const korea = await _.fetchMovieRecursive({
+        region: "韓國",
+        page: 1,
+        _movies: [],
+      });
+      const us = await _.fetchMovieRecursive({
+        region: "歐美",
+        page: 1,
+        _movies: [],
+      });
+      const jp = await _.fetchMovieRecursive({
+        region: "日本",
+        page: 1,
+        _movies: [],
+      });
+      const china = await _.fetchMovieRecursive({
+        region: "大陸",
+        page: 1,
+        _movies: [],
+      });
+      const tw = await _.fetchMovieRecursive({
+        region: "台灣",
+        page: 1,
+        _movies: [],
+      });
+      const netflix = await _.fetchMovieRecursive({
+        cats: "netflix",
+        page: 1,
+        _movies: [],
+      });
+      return [...hk, ...korea, ...us, ...jp, ...china, ...tw, ...netflix];
     } catch (err) {
       console.log(err);
       return [];
