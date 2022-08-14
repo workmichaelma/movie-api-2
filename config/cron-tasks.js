@@ -4,10 +4,10 @@ module.exports = {
    * Every monday at 1am.
    */
 
-  "* */5 * * * *": ({ strapi }) => {
+  "* */20 * * * *": ({ strapi }) => {
     strapi.api["cronjob"].services["cronjob"].movie();
   },
-  "* */5 * * * *": ({ strapi }) => {
+  "* */20 * * * *": ({ strapi }) => {
     strapi.api["cronjob"].services["cronjob"].drama();
   },
 };
