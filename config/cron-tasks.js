@@ -6,19 +6,19 @@ module.exports = {
   movie: {
     task: async ({ _strapi }) => {
       console.log("cron - movie", new Date());
-      _strapi.api["cronjob"].services["cronjob"].movie();
+      // _strapi.api["cronjob"].services["cronjob"].movie();
     },
     options: {
-      rule: "0 */5 * * * *",
+      rule: "*/1 * * * * *",
     },
   },
   drama: {
     task: async ({ _strapi }) => {
       console.log("cron - drama", new Date());
-      _strapi.api["cronjob"].services["cronjob"].drama();
+      // _strapi.api["cronjob"].services["cronjob"].drama();
     },
     options: {
-      rule: "0 */5 * * * *",
+      rule: "*/1 * * * * *",
     },
   },
 };
