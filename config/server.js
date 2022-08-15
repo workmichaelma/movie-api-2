@@ -6,7 +6,7 @@ module.exports = ({ env }) => ({
     keys: env.array("APP_KEYS"),
   },
   cron: {
-    enabled: false,
+    enabled: env.NODE_ENV === "production",
     tasks: cronTasks,
   },
 });
