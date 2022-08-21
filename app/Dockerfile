@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 # Installing libvips-dev for sharp Compatability
 RUN apt-get update && apt-get install libvips-dev -y
 ARG NODE_ENV=${NODE_ENV}
