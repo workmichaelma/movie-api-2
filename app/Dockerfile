@@ -1,0 +1,27 @@
+FROM node:14
+# Installing libvips-dev for sharp Compatability
+RUN apt-get update && apt-get install libvips-dev -y
+ARG NODE_ENV=${NODE_ENV}
+
+ENV APP_KEYS=${APP_KEYS}
+ENV API_TOKEN_SALT=${API_TOKEN_SALT}
+ENV ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+ENV JWT_SECRET=${JWT_SECRET}
+ENV NODE_ENV=${NODE_ENV}
+ENV DATABASE_HOST=${DATABASE_HOST}
+ENV DATABASE_PORT=${DATABASE_PORT}
+ENV DATABASE_NAME=${DATABASE_NAME}
+ENV DATABASE_USERNAME=${DATABASE_USERNAME}
+ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
+ENV DATABASE_SSL=${DATABASE_SSL}
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /opt/
+COPY ./package.json ./yarn.lock ./
+ENV PATH /opt/node_modules/.bin:$PATH
+RUN yarn config set network-timeout 600000 -g && yarn install
+WORKDIR /opt/app
+COPY ./ .
+RUN yarn build
+EXPOSE 1337
+CMD ["yarn", "start"]
