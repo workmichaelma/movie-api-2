@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY ./package*.json .
 
-RUN rm -rf node_modules package-lock.json && yarn
+RUN npm cache clean --force && rm -rf node_modules package-lock.json && yarn
 
 COPY . .
 
