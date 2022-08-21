@@ -13,7 +13,7 @@ services:
       DATABASE_NAME: 'movie_dev'
       DATABASE_USERNAME: 'michaelma'
       DATABASE_PASSWORD: 'footballwork'
-      DATABASE_SSL: false
+      DATABASE_SSL: 'false'
     volumes:
       - ./app:/opt/app
     ports:
