@@ -5,9 +5,9 @@ FROM node:14-alpine
 
 WORKDIR /app
 
-COPY ./package*.json ./
+COPY ./package*.json ./app
 
-RUN npm install
+RUN yarn install
 
 COPY . .
 
@@ -24,8 +24,8 @@ ENV DATABASE_USERNAME=${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 ENV DATABASE_SSL=${DATABASE_SSL}
 
-RUN npm run build
+RUN yarn build
 
 EXPOSE 1337
 
-CMD ["npm", "start"]
+CMD ["yarn", "develop"]
