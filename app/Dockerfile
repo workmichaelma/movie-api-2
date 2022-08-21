@@ -1,8 +1,17 @@
-FROM node:14-alpine
-# Installing libvips-dev for sharp Compatability
-RUN apt-get update && apt-get install libvips-dev -y
-ARG NODE_ENV=${NODE_ENV}
+FROM strapi/strapi
 
+# Let WatchTower know to ignore this container for checking
+LABEL com.centurylinklabs.watchtower.enable="false"
+
+WORKDIR /app
+
+COPY ./package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV NODE_ENV production
 ENV APP_KEYS=${APP_KEYS}
 ENV API_TOKEN_SALT=${API_TOKEN_SALT}
 ENV ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
@@ -14,14 +23,9 @@ ENV DATABASE_NAME=${DATABASE_NAME}
 ENV DATABASE_USERNAME=${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 ENV DATABASE_SSL=${DATABASE_SSL}
-ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /opt/
-COPY ./package.json ./yarn.lock ./
-ENV PATH /opt/node_modules/.bin:$PATH
-RUN yarn config set network-timeout 600000 -g && yarn install
-WORKDIR /opt/app
-COPY ./ .
-RUN yarn build
+RUN npm run build
+
 EXPOSE 1337
-CMD ["yarn", "start"]
+
+CMD ["npm", "start"]
