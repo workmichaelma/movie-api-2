@@ -5,12 +5,6 @@ FROM node:14
 
 WORKDIR /app
 
-COPY ./package*.json .
-
-RUN npm cache clean --force && rm -rf node_modules package-lock.json && yarn
-
-COPY . .
-
 ENV NODE_ENV production
 ENV APP_KEYS=${APP_KEYS}
 ENV API_TOKEN_SALT=${API_TOKEN_SALT}
@@ -24,8 +18,14 @@ ENV DATABASE_USERNAME=${DATABASE_USERNAME}
 ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 ENV DATABASE_SSL=${DATABASE_SSL}
 
+COPY ./package.json /app
+
+RUN yarn
+
+COPY . /app
+
 RUN yarn build
 
 EXPOSE 1337
 
-CMD ["yarn", "develop"]
+CMD yarn develop
