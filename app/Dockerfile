@@ -1,7 +1,7 @@
-FROM strapi/strapi
+FROM node:14-alpine
 
 # Let WatchTower know to ignore this container for checking
-LABEL com.centurylinklabs.watchtower.enable="false"
+# LABEL com.centurylinklabs.watchtower.enable="false"
 
 WORKDIR /app
 
