@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14
 
 # Let WatchTower know to ignore this container for checking
 # LABEL com.centurylinklabs.watchtower.enable="false"
