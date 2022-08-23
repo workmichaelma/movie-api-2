@@ -10,7 +10,7 @@ module.exports = {
       console.log(err, "Failed to cronjob movie");
     }
   },
-  "* * */5 * * *": async () => {
+  "* */5 * * * *": async () => {
     try {
       strapi.api.cronjob.services.cronjob.drama();
     } catch (err) {
