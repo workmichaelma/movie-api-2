@@ -19,19 +19,19 @@ module.exports = {
   //     console.log(err, "Failed to cronjob drama");
   //   }
   // },
-  movie: {
-    task: async ({ _strapi }) => {
-      try {
-        console.log("Cronjob - drama", new Date());
-        strapi.api.cronjob.services.cronjob.movie();
-      } catch (err) {
-        console.log(err, "Failed to cronjob movie");
-      }
-    },
-    options: {
-      rule: "* * */6 * * *",
-    },
-  },
+  // movie: {
+  //   task: async ({ _strapi }) => {
+  //     try {
+  //       console.log("Cronjob - drama", new Date());
+  //       strapi.api.cronjob.services.cronjob.movie();
+  //     } catch (err) {
+  //       console.log(err, "Failed to cronjob movie");
+  //     }
+  //   },
+  //   options: {
+  //     rule: "* * */6 * * *",
+  //   },
+  // },
   drama: {
     task: async ({ _strapi }) => {
       try {
@@ -42,7 +42,7 @@ module.exports = {
       }
     },
     options: {
-      rule: "*/120 * * * * *",
+      rule: "*/1 * * * * *",
     },
   },
 };
