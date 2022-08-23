@@ -3,22 +3,18 @@ module.exports = {
    * Simple example.
    * Every monday at 1am.
    */
-  movie: {
-    task: async ({ _strapi }) => {
-      // console.log("cron - movie", new Date());
-      _strapi.api["cronjob"].services["cronjob"].movie();
-    },
-    options: {
-      rule: "* * */6 * * *",
-    },
+  "* * */6 * * *": async () => {
+    try {
+      strapi.api.cronjob.services.cronjob.movie();
+    } catch (err) {
+      console.log(err, "Failed to cronjob movie");
+    }
   },
-  drama: {
-    task: async ({ _strapi }) => {
-      // console.log("cron - drama", new Date());
-      _strapi.api["cronjob"].services["cronjob"].drama();
-    },
-    options: {
-      rule: "* * */6 * * *",
-    },
+  "* * */5 * * *": async () => {
+    try {
+      strapi.api.cronjob.services.cronjob.drama();
+    } catch (err) {
+      console.log(err, "Failed to cronjob drama");
+    }
   },
 };

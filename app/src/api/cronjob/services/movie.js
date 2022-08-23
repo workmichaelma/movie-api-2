@@ -160,6 +160,11 @@ const _ = {
 module.exports = () => ({
   cron: async () => {
     try {
+      const netflix = await _.fetchMovieRecursive({
+        cats: "netflix",
+        page: 1,
+        _movies: [],
+      });
       const hk = await _.fetchMovieRecursive({
         region: "香港",
         page: 1,
@@ -187,11 +192,6 @@ module.exports = () => ({
       });
       const tw = await _.fetchMovieRecursive({
         region: "台灣",
-        page: 1,
-        _movies: [],
-      });
-      const netflix = await _.fetchMovieRecursive({
-        cats: "netflix",
         page: 1,
         _movies: [],
       });
