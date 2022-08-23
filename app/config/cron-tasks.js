@@ -5,6 +5,7 @@ module.exports = {
    */
   "* * */6 * * *": async () => {
     try {
+      console.log("Cronjob - movie");
       strapi.api.cronjob.services.cronjob.movie();
     } catch (err) {
       console.log(err, "Failed to cronjob movie");
@@ -12,6 +13,7 @@ module.exports = {
   },
   "* */5 * * * *": async () => {
     try {
+      console.log("Cronjob - drama");
       strapi.api.cronjob.services.cronjob.drama();
     } catch (err) {
       console.log(err, "Failed to cronjob drama");
