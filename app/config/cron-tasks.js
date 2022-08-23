@@ -42,7 +42,7 @@ module.exports = {
       }
     },
     options: {
-      rule: "*/60 * * * * *",
+      rule: "*/120 * * * * *",
     },
   },
 };
