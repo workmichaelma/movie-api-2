@@ -20,11 +20,7 @@ ENV DATABASE_SSL=${DATABASE_SSL}
 
 COPY ./package.json /app
 
-RUN yarn
-
-COPY . /app
-
-RUN yarn build
+RUN yarn && yarn build
 
 EXPOSE 1337
 
