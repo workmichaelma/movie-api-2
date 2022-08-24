@@ -22,7 +22,7 @@ COPY ./package.json /app
 
 RUN yarn && yarn build
 
-COPY . /app
+COPY . .
 
 EXPOSE 1337
 
