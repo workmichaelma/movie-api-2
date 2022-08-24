@@ -22,6 +22,8 @@ COPY ./package.json /app
 
 RUN yarn && yarn build
 
+COPY . /app
+
 EXPOSE 1337
 
 CMD yarn start
