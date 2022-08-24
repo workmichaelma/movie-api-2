@@ -3,62 +3,20 @@ module.exports = {
    * Simple example.
    * Every monday at 1am.
    */
-  // "* * */6 * * *": async () => {
-  //   try {
-  //     console.log("Cronjob - movie");
-  //     strapi.api.cronjob.services.cronjob.movie();
-  //   } catch (err) {
-  //     console.log(err, "Failed to cronjob movie");
-  //   }
-  // },
-  "*/10 * * * * *": () => {
-    console.log("10s later", new Date());
-  },
-  "*/10 * * * * *": () => {
+  "* */6 * * *": async () => {
     try {
-      console.log("Cronjob - drama - ", new Date());
+      console.log("Cronjob - movie: ", new Date());
+      strapi.api.cronjob.services.cronjob.movie();
+    } catch (err) {
+      console.log(err, "Failed to cronjob movie");
+    }
+  },
+  "* */6 * * *": () => {
+    try {
+      console.log("Cronjob - drama: ", new Date());
       strapi.api.cronjob.services.cronjob.drama();
     } catch (err) {
       console.log(err, "Failed to cronjob drama");
     }
   },
-  // movie: {
-  //   task: async ({ _strapi }) => {
-  //     try {
-  //       console.log("Cronjob - drama", new Date());
-  //       strapi.api.cronjob.services.cronjob.movie();
-  //     } catch (err) {
-  //       console.log(err, "Failed to cronjob movie");
-  //     }
-  //   },
-  //   options: {
-  //     rule: "* * */6 * * *",
-  //   },
-  // },
-  // drama: {
-  //   task: async ({ _strapi }) => {
-  //     try {
-  //       console.log("Cronjob - drama", new Date());
-  //       strapi.api.cronjob.services.cronjob.drama();
-  //     } catch (err) {
-  //       console.log(err, "Failed to cronjob drama");
-  //     }
-  //   },
-  //   options: {
-  //     rule: "*/1 * * * * *",
-  //   },
-  // },
-  // drama: {
-  //   task: async ({ strapi }) => {
-  //     try {
-  //       console.log("Cronjob - drama", new Date());
-  //       strapi.api.cronjob.services.cronjob.drama();
-  //     } catch (err) {
-  //       console.log(err, "Failed to cronjob drama");
-  //     }
-  //   },
-  //   options: {
-  //     rule: "*/1 * * * *",
-  //   },
-  // },
 };
