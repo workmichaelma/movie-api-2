@@ -86,10 +86,16 @@ const _ = {
       }
       return null;
     } catch (err) {
-      console.log(
-        err,
-        `fetchHTML: page{${page}}, type{${region}}, title${title}`
-      );
+      const msg = `fetchHTML: page{${page}}, region{${region}, title${title}}`;
+      if (process?.env?.NODE_ENV === "production") {
+        if (err?.response?.status === 404) {
+          console.log(`${msg}, 404`);
+        } else {
+          console.log(err, msg);
+        }
+      } else {
+        console.log(err, msg);
+      }
       return null;
     }
   },

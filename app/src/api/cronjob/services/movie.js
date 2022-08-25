@@ -51,7 +51,16 @@ const _ = {
       }
       return null;
     } catch (err) {
-      console.log(err, `fetchHTML: page{${page}}, region{${region}}`);
+      const msg = `fetchHTML: page{${page}}, region{${region}}`;
+      if (process?.env?.NODE_ENV === "production") {
+        if (err?.response?.status === 404) {
+          console.log(`${msg}, 404`);
+        } else {
+          console.log(err, msg);
+        }
+      } else {
+        console.log(err, msg);
+      }
       return null;
     }
   },

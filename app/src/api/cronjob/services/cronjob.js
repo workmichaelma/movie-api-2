@@ -338,9 +338,8 @@ module.exports = () => ({
   },
   drama: async () => {
     try {
-      // const data = await strapi.service("api::cronjob.drama").cron();
-      console.log("yo");
-      // return _.dramasHandler({ dramas: data });
+      const data = await strapi.service("api::cronjob.drama").cron();
+      return _.dramasHandler({ dramas: data });
     } catch (err) {
       console.log(err);
       return [];
