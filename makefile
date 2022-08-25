@@ -1,5 +1,5 @@
 build:
-	docker-compose up --build --force-recreate --no-deps --no-cache
+	docker-compose build --no-cache && docker-compose up --force-recreate --no-deps
 clear:
 	docker system prune
 up:
