@@ -289,11 +289,11 @@ module.exports = () => ({
       let _source = source;
       let dbResult = null;
       if (!_source) {
-        if (type === "movie") {
+        if (type === "movies") {
           dbResult = await db.find.movie({ title, id });
-        } else if (type === "tvshow") {
+        } else if (type === "tvshows") {
           dbResult = await db.find.tvshow({ title, id });
-        } else if (type === "drama") {
+        } else if (type === "dramas") {
           dbResult = await db.find.drama({ title, id });
         }
         if (dbResult) {
@@ -310,19 +310,19 @@ module.exports = () => ({
         }
       }
       if (_source) {
-        if (type === "drama" || type === "tvshow") {
+        if (type === "dramas" || type === "tvshows") {
           const dramaFeeds = await _.fetchDramaFromSource({
             source: _source,
           });
           if (isObject(dramaFeeds) && !isEmpty(dramaFeeds)) {
             if (dbResult) {
               let result = null;
-              if (type === "drama") {
+              if (type === "dramas") {
                 result = await db.update.drama({
                   id: dbResult.id,
                   feeds: dramaFeeds,
                 });
-              } else if (type === "tvshow") {
+              } else if (type === "tvshows") {
                 result = await db.update.tvshow({
                   id: dbResult.id,
                   feeds: dramaFeeds,
@@ -333,7 +333,7 @@ module.exports = () => ({
             return dramaFeeds;
           }
         }
-        if (type === "movie") {
+        if (type === "movies") {
           const movieFeeds = await _.fetchMovieFromSource({
             source: _source,
           });
