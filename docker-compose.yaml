@@ -8,12 +8,12 @@ services:
       ADMIN_JWT_SECRET: 'GmziefmfmWtMTfM/F7g05A=='
       JWT_SECRET: 'jfDgNRoWhQDAEqcitxjw8Q=='
       NODE_ENV: ${NODE_ENV}
-      DATABASE_HOST: 'movie-backend.csr0jb4deere.us-east-1.rds.amazonaws.com'
-      DATABASE_PORT: '5432'
-      DATABASE_NAME: 'movie_dev'
-      DATABASE_USERNAME: 'michaelma'
-      DATABASE_PASSWORD: 'footballwork'
-      DATABASE_SSL: 'false'
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SSL: ${DATABASE_SSL}
     volumes:
       - ./app:/opt/app
       - /app/node_modules

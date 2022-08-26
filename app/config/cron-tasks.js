@@ -19,4 +19,12 @@ module.exports = {
       console.log(err, "Failed to cronjob drama");
     }
   },
+  "* */6 * * *": () => {
+    try {
+      console.log("Cronjob - tvshow: ", new Date());
+      strapi.api.cronjob.services.cronjob.tvshow();
+    } catch (err) {
+      console.log(err, "Failed to cronjob tvshow");
+    }
+  },
 };
