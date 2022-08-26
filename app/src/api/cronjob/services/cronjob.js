@@ -226,12 +226,12 @@ const _ = {
 
       let tagsToInsert = [];
       forEach(uniqTags, (tag) => {
-        if (!find(dbResult, tag)) {
+        if (!find(dbResult, { type: tag.type, name: tag.name })) {
           tagsToInsert.push(tag);
         }
       });
       const newTags = await db.insert.tags({ tags: tagsToInsert });
-      return [...dbResult, newTags];
+      return [...dbResult, ...newTags];
     } catch (err) {
       console.log(err);
       return [];
@@ -270,7 +270,7 @@ const _ = {
 
       let tvshowsToInsert = [];
       forEach(tvshows, (tvshow) => {
-        if (!find(dbResult, { title: tvshow.title })) {
+        if (!find(dbResult, { title: tvshow.title, season: tvshow.season })) {
           const { tags } = tvshow;
           const tagIds = compact(
             map(tags, (t) => {

@@ -73,8 +73,6 @@ const _ = {
       _tvs: [],
     });
 
-    console.log({ tvShows });
-
     return _.getSeriesFromTvShows({ tvShows });
   },
   fetchHTML: async ({ url, region = "", page = "", title = "" }) => {
@@ -249,7 +247,13 @@ module.exports = () => ({
       const cn = await _.fetchTvShows({
         region: "大陸",
       });
-      return [...hk, ...jp, ...cn];
+      const tw = await _.fetchTvShows({
+        region: "台灣",
+      });
+      const us = await _.fetchTvShows({
+        region: "海外",
+      });
+      return [...hk, ...jp, ...cn, ...tw, ...us];
     } catch (err) {
       console.log(err);
       return [];
