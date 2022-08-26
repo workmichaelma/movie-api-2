@@ -19,8 +19,11 @@ const {
 
 const headers = {
   headers: {
+    accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
     "User-agent":
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+    "sec-ch-ua-platform": "macOS",
   },
 };
 
@@ -43,10 +46,10 @@ const addHttpsToUrl = (url) => {
       }
       return url;
     }
-    return "";
+    return url;
   } catch (err) {
     console.log(err);
-    return "";
+    return url;
   }
 };
 /**
@@ -164,14 +167,15 @@ const db = {
 const _ = {
   fetchHTML: async ({ source }) => {
     try {
-      if (source) {
-        console.log(`fetching...${source}`);
-        const { data } = await axios.get(source, headers);
+      const _source = decodeURIComponent(source);
+      if (_source) {
+        console.log(`fetching...${_source}`);
+        const { data } = await axios.get(_source, headers);
         return data;
       }
       return null;
     } catch (err) {
-      console.log(err, `fetchHTML: source{ ${source} }`);
+      console.log(err, `fetchHTML: source{ ${_source} }`);
       return null;
     }
   },
@@ -219,12 +223,13 @@ const _ = {
         if (isArray(videourls) && !isEmpty(videourls)) {
           const url = flatten(videourls);
           const groupedUrl = groupBy(url, (u) => {
-            return toNumber(u.name);
+            const { name = "" } = u || {};
+            return !isNaN(name) ? toNumber(name) : name;
           });
           return orderBy(
             map(groupedUrl, (urls, episode) => {
               return {
-                episode: toNumber(episode),
+                episode: !isNaN(episode) ? toNumber(episode) : episode,
                 feeds: compact(
                   map(urls, (obj) => {
                     // return `https://www.movieffm.net/jwplayer/?source=${encodeURIComponent(
