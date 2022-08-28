@@ -3,7 +3,7 @@ module.exports = {
    * Simple example.
    * Every monday at 1am.
    */
-  "* */6 * * *": async () => {
+  "0 14 * * *": async () => {
     try {
       console.log("Cronjob - movie: ", new Date());
       strapi.api.cronjob.services.cronjob.movie();
@@ -11,7 +11,7 @@ module.exports = {
       console.log(err, "Failed to cronjob movie");
     }
   },
-  "* */6 * * *": () => {
+  "0 13 * * *": () => {
     try {
       console.log("Cronjob - drama: ", new Date());
       strapi.api.cronjob.services.cronjob.drama();
@@ -19,7 +19,7 @@ module.exports = {
       console.log(err, "Failed to cronjob drama");
     }
   },
-  "* */6 * * *": () => {
+  "0 12 * * *": () => {
     try {
       console.log("Cronjob - tvshow: ", new Date());
       strapi.api.cronjob.services.cronjob.tvshow();
