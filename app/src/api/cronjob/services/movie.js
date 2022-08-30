@@ -167,44 +167,66 @@ const _ = {
 };
 
 module.exports = () => ({
-  cron: async () => {
+  cron: async (regions) => {
     try {
-      const netflix = await _.fetchMovieRecursive({
-        cats: "netflix",
-        page: 1,
-        _movies: [],
-      });
-      const hk = await _.fetchMovieRecursive({
-        region: "香港",
-        page: 1,
-        _movies: [],
-      });
-      const korea = await _.fetchMovieRecursive({
-        region: "韓國",
-        page: 1,
-        _movies: [],
-      });
-      const us = await _.fetchMovieRecursive({
-        region: "歐美",
-        page: 1,
-        _movies: [],
-      });
-      const jp = await _.fetchMovieRecursive({
-        region: "日本",
-        page: 1,
-        _movies: [],
-      });
-      const china = await _.fetchMovieRecursive({
-        region: "大陸",
-        page: 1,
-        _movies: [],
-      });
-      const tw = await _.fetchMovieRecursive({
-        region: "台灣",
-        page: 1,
-        _movies: [],
-      });
-      return [...hk, ...korea, ...us, ...jp, ...china, ...tw, ...netflix];
+      let items = [];
+      if (includes(regions, "netflix")) {
+        const data = await _.fetchMovieRecursive({
+          cats: "netflix",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "hk")) {
+        const data = await _.fetchMovieRecursive({
+          region: "香港",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "kr")) {
+        const data = await _.fetchMovieRecursive({
+          region: "韓國",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "us")) {
+        const data = await _.fetchMovieRecursive({
+          region: "歐美",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "jp")) {
+        const data = await _.fetchMovieRecursive({
+          region: "日本",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "cn")) {
+        const data = await _.fetchMovieRecursive({
+          region: "大陸",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      if (includes(regions, "tw")) {
+        const data = await _.fetchMovieRecursive({
+          region: "台灣",
+          page: 1,
+          _movies: [],
+        });
+        items = [...items, ...data];
+      }
+      return items;
     } catch (err) {
       console.log(err);
       return [];

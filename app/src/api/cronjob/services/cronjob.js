@@ -312,9 +312,9 @@ const _ = {
 };
 
 module.exports = () => ({
-  movie: async () => {
+  movie: async (regions) => {
     try {
-      const data = await strapi.service("api::cronjob.movie").cron();
+      const data = await strapi.service("api::cronjob.movie").cron(regions);
 
       const dbTags = await _.tagsHandler({ data });
 
@@ -336,9 +336,9 @@ module.exports = () => ({
       return [];
     }
   },
-  drama: async () => {
+  drama: async (regions) => {
     try {
-      const data = await strapi.service("api::cronjob.drama").cron();
+      const data = await strapi.service("api::cronjob.drama").cron(regions);
       return _.dramasHandler({ dramas: data });
     } catch (err) {
       console.log(err);

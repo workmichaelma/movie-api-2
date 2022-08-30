@@ -126,44 +126,66 @@ const _ = {
 };
 
 module.exports = () => ({
-  cron: async () => {
+  cron: async (regions) => {
     try {
-      const hk = await _.fetchDramaRecursive({
-        region: "香港",
-        page: 1,
-        _dramas: [],
-      });
-      const korea = await _.fetchDramaRecursive({
-        region: "韓國",
-        page: 1,
-        _dramas: [],
-      });
-      const en = await _.fetchDramaRecursive({
-        region: "英國",
-        page: 1,
-        _dramas: [],
-      });
-      const us = await _.fetchDramaRecursive({
-        region: "美國",
-        page: 1,
-        _dramas: [],
-      });
-      const jp = await _.fetchDramaRecursive({
-        region: "日本",
-        page: 1,
-        _dramas: [],
-      });
-      const china = await _.fetchDramaRecursive({
-        region: "大陸",
-        page: 1,
-        _dramas: [],
-      });
-      const tw = await _.fetchDramaRecursive({
-        region: "台灣",
-        page: 1,
-        _dramas: [],
-      });
-      return [...hk, ...korea, ...en, ...us, ...jp, ...china, ...tw];
+      let items = [];
+      if (includes(regions, "hk")) {
+        const hk = await _.fetchDramaRecursive({
+          region: "香港",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...hk];
+      }
+      if (includes(regions, "korea")) {
+        const korea = await _.fetchDramaRecursive({
+          region: "韓國",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...korea];
+      }
+      if (includes(regions, "en")) {
+        const en = await _.fetchDramaRecursive({
+          region: "英國",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...en];
+      }
+      if (includes(regions, "us")) {
+        const us = await _.fetchDramaRecursive({
+          region: "美國",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...us];
+      }
+      if (includes(regions, "jp")) {
+        const jp = await _.fetchDramaRecursive({
+          region: "日本",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...jp];
+      }
+      if (includes(regions, "china")) {
+        const china = await _.fetchDramaRecursive({
+          region: "大陸",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...china];
+      }
+      if (includes(regions, "tw")) {
+        const tw = await _.fetchDramaRecursive({
+          region: "台灣",
+          page: 1,
+          _dramas: [],
+        });
+        items = [...items, ...tw];
+      }
+      return items;
     } catch (err) {
       console.log(err);
       return [];
@@ -176,7 +198,12 @@ module.exports = () => ({
         page: 1,
         _dramas: [],
       });
-      return [...hk];
+      const china = await _.fetchDramaRecursive({
+        region: "大陸",
+        page: 1,
+        _dramas: [],
+      });
+      return [...hk, ...china];
     } catch (err) {
       console.log(err);
       return [];

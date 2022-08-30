@@ -15,6 +15,7 @@ const {
   sortBy,
   compact,
   toNumber,
+  uniq,
 } = require("lodash");
 
 const headers = {
@@ -230,14 +231,16 @@ const _ = {
             map(groupedUrl, (urls, episode) => {
               return {
                 episode: !isNaN(episode) ? toNumber(episode) : episode,
-                feeds: compact(
-                  map(urls, (obj) => {
-                    // return `https://www.movieffm.net/jwplayer/?source=${encodeURIComponent(
-                    //   obj.url
-                    // )}&type=hls`;
-                    const url = get(obj, "url", "");
-                    return addHttpsToUrl(url);
-                  })
+                feeds: uniq(
+                  compact(
+                    map(urls, (obj) => {
+                      // return `https://www.movieffm.net/jwplayer/?source=${encodeURIComponent(
+                      //   obj.url
+                      // )}&type=hls`;
+                      const url = get(obj, "url", "");
+                      return addHttpsToUrl(url);
+                    })
+                  )
                 ),
               };
             }),
