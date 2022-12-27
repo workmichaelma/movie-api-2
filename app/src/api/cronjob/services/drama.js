@@ -107,7 +107,7 @@ const _ = {
       const source = item.find(".poster > a").attr("href");
       const drama = {
         type: "drama",
-        poster: item.find(".poster > img").attr("src"),
+        poster: item.find(".poster > img").attr("data-lazy-src"),
         source,
         title: parseName(item.find("h3 > a").text()),
         year: item.find(".dtinfo .metadata > span").text().slice(0, 4),

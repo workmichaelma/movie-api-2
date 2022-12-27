@@ -260,23 +260,51 @@ const _ = {
       const html = await _.fetchHTML({ source });
       if (html) {
         const $ = cheerio.load(html);
-        const sourcesDoc = $(".source-box").not("#source-player-trailer");
-        const sources = sourcesDoc
-          .map((i, el) => {
-            const source = $(el);
-            const url = source.find("iframe").attr("src");
-            if (isURL(url)) {
-              const fullpath = new URL(url) || {};
-              if (fullpath.search) {
-                const source = new URLSearchParams(fullpath.search).get(
-                  "source"
-                );
-                return addHttpsToUrl(source);
+        const scripts = $("#single .content.right script");
+
+        const js = compact(
+          scripts
+            .map((i, el) => {
+              const _ = cheerio.load(el);
+              try {
+                const text = _.text();
+                if (text && /#playcontainer/g.test(text)) {
+                  return _.text();
+                }
+
+                return null;
+              } catch (err) {
+                return null;
               }
+            })
+            .get()
+        );
+
+        if (js.length === 1) {
+          function Vue({ data }) {
+            try {
+              if (data) {
+                this.data = data;
+              }
+            } catch {}
+          }
+
+          try {
+            const vueData = eval(js[0]);
+            const data = vueData.data();
+
+            if (data.videourls && isArray(data.videourls)) {
+              return data.videourls.map((_) => {
+                return _.url;
+              });
             }
-          })
-          .get();
-        return compact(sources);
+            return [];
+          } catch {
+            return [];
+          }
+        }
+
+        return null;
       }
       return null;
     } catch (err) {
@@ -299,6 +327,7 @@ module.exports = () => ({
         } else if (type === "dramas") {
           dbResult = await db.find.drama({ title, id });
         }
+        console.log({ source, title, id, type, dbResult });
         if (dbResult) {
           if (
             dbResult.feeds &&
@@ -350,6 +379,7 @@ module.exports = () => ({
             }
             return movieFeeds;
           }
+          return movieFeeds;
         }
       }
       return null;

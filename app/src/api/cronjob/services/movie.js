@@ -135,7 +135,7 @@ const _ = {
       const _region = region ? region : cats ? cats : "";
       const movie = {
         type: "movie",
-        poster: item.find(".poster > img").attr("src"),
+        poster: item.find(".poster > img").attr("data-lazy-src"),
         name: (source || "")
           .replace(/^(https:\/\/www.movieffm.net\/movies\/)/g, "")
           .replace("/", ""),

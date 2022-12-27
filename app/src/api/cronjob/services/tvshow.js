@@ -151,7 +151,7 @@ const _ = {
         .get();
       const tvshow = {
         type: "tvshow",
-        poster: item.find(".poster > img").attr("src"),
+        poster: item.find(".poster > img").attr("data-lazy-src"),
         season: item.find(".poster .update").text(),
         source,
         title: parseName(item.find("h3 > a").text()),
